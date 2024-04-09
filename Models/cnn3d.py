@@ -43,9 +43,8 @@ class cnn3d(nn.Module):
         x = torch.flatten(x,1)
         x = self.full_conn1(x)
         x = self.relu(x)
-        x = self.drop2(x)
         x = self.fc1_norm(x)
-
+        x = self.drop2(x)
         x = self.full_conn2(x)
 
         return F.softmax(x)
