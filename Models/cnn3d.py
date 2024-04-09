@@ -11,10 +11,10 @@ class cnn3d(nn.Module):
         self.cnv2_norm = nn.BatchNorm3d(32)
         self.cnv3 = self._def_cnv_layer(32, 64)
         self.cnv3_norm = nn.BatchNorm3d(64)
-        self.full_conn1 = nn.Linear(138240, 256)
+        self.full_conn1 = nn.Linear(83200, 256)
         self.fc1_norm = nn.BatchNorm1d(256)
         self.full_conn2 = nn.Linear(256, 6)
-        self.relu = nn.LeakyReLU()
+        self.relu = nn.ReLU()
         self.drop1 = nn.Dropout3d(0.25)
         self.drop2 = nn.Dropout(0.5)
 
@@ -22,12 +22,12 @@ class cnn3d(nn.Module):
         cnv_layer = nn.Sequential(
             nn.Conv3d(
                 i_c, 
-                o_c, 
-                kernel_size=(3, 3, 3), 
+                o_c,
+                kernel_size=(5, 5, 5), 
                 stride=1,
                 padding=0,
                 ),
-            nn.LeakyReLU(),
+            nn.ReLU(),
             nn.MaxPool3d(kernel_size=(2, 2, 2), stride=2),
             )
         return cnv_layer
@@ -43,8 +43,9 @@ class cnn3d(nn.Module):
         x = torch.flatten(x,1)
         x = self.full_conn1(x)
         x = self.relu(x)
-        x = self.fc1_norm(x)
         x = self.drop2(x)
+        x = self.fc1_norm(x)
+
         x = self.full_conn2(x)
 
-        return x
+        return F.softmax(x)
