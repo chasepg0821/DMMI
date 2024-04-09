@@ -12,7 +12,6 @@ class DataManager:
         self.pt_500, self.pt_4000 = self._populate_PTS()
 
     def _populate_images(self):
-        #this will plot full siz size 
         imgs = []
         for i in range(1,172):
             img = nib.load(f'./dataset/n171_smwp1/smwp10{i:03}_T1.nii').get_fdata()

@@ -30,7 +30,7 @@ def train_one_epoch():
         inputs, labels = data
         optimizer.zero_grad()
         outputs = model(inputs)
-        #print(labels, outputs)
+        print(labels, outputs)
         loss = loss_fn(outputs, labels)
         loss.backward()
         optimizer.step()
