@@ -1,8 +1,3 @@
-import pandas as pd
-import numpy as np
-import os
-import torch
-from torch.autograd import Variable
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.optim import *
@@ -50,48 +45,4 @@ class cnn3d(nn.Module):
         x = self.drop(x)
         x = self.full_conn2(x)
 
-        return x
-
-
-## CNN with two conv layers, global average pooling, and two dense layers.
-class Net(nn.Module):
-    def __init__(self, out_features):
-        super().__init__()
-        self.conv1 = nn.Conv2d(1, 16, 5, 1)
-        self.max_pool = nn.MaxPool2d(2)
-        self.conv2 = nn.Conv2d(16, 16, 5, 1)
-        self.glob_avg_pool = nn.AdaptiveAvgPool2d((1, 1))
-        self.fc1 = nn.Linear(16, 16)
-        self.fc2 = nn.Linear(16, out_features)
-
-    def forward(self, x):
-        x = F.relu(self.conv1(x))
-        x = self.max_pool(x)
-        x = F.relu(self.conv2(x))
-        x = self.glob_avg_pool(x)
-        x = torch.flatten(x, 1)
-        x = F.relu(self.fc1(x))
-        x = self.fc2(x)
-        return x
-
-class Model(torch.nn.Module): 
-    def __init__(self):
-        super(Model, self).__init__()
-        self.conv1 = nn.Conv3d(in_channels=1, out_channels=8, kernel_size=3)
-        self.conv2 = nn.Conv3d(in_channels=8, out_channels=8, kernel_size=3)
-        self.conv3 = nn.Conv3d(in_channels=8, out_channels=16, kernel_size=3)
-        self.conv4 = nn.Conv3d(in_channels=16, out_channels=16, kernel_size=3)
-        self.fc1 = nn.Linear(1749600, 1)
-
-    def forward(self, x):
-        x = F.relu(self.conv1(x))
-        x = F.relu(self.conv2(x))
-        x = F.max_pool3d(x, kernel_size=2, stride=2)
-
-        x = F.relu(self.conv3(x))
-        x = F.relu(self.conv4(x))
-        x = F.max_pool3d(x, kernel_size=2, stride=2)
-
-        x = torch.flatten(x, start_dim=1)
-        x = self.fc1(x)
         return x
