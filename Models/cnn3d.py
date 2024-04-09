@@ -1,6 +1,6 @@
+import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch.optim import *
 
 class cnn3d(nn.Module):
     def __init__(self):
@@ -11,22 +11,23 @@ class cnn3d(nn.Module):
         self.cnv2_norm = nn.BatchNorm3d(32)
         self.cnv3 = self._def_cnv_layer(32, 64)
         self.cnv3_norm = nn.BatchNorm3d(64)
-        self.full_conn1 = nn.Linear(10*10*10*64, 128)
-        self.fc1_norm = nn.BatchNorm1d(128)
-        self.full_conn2 = nn.Linear(128, 20)
-        self.relu = nn.ReLU()
-        self.drop = nn.Dropout(p=0.3)
+        self.full_conn1 = nn.Linear(138240, 256)
+        self.fc1_norm = nn.BatchNorm1d(256)
+        self.full_conn2 = nn.Linear(256, 6)
+        self.relu = nn.LeakyReLU()
+        self.drop1 = nn.Dropout3d(0.25)
+        self.drop2 = nn.Dropout(0.5)
 
     def _def_cnv_layer(self, i_c, o_c):
         cnv_layer = nn.Sequential(
             nn.Conv3d(
                 i_c, 
                 o_c, 
-                kernel_size=(4, 4, 4), 
-                stride=2,
-                padding=2,
+                kernel_size=(3, 3, 3), 
+                stride=1,
+                padding=0,
                 ),
-            nn.ReLU(),
+            nn.LeakyReLU(),
             nn.MaxPool3d(kernel_size=(2, 2, 2), stride=2),
             )
         return cnv_layer
@@ -38,11 +39,12 @@ class cnn3d(nn.Module):
         x = self.cnv2_norm(x)
         x = self.cnv3(x)
         x = self.cnv3_norm(x)
-        x = x.view(x.size(0), -1)
+        x = self.drop1(x)
+        x = torch.flatten(x,1)
         x = self.full_conn1(x)
         x = self.relu(x)
         x = self.fc1_norm(x)
-        x = self.drop(x)
+        x = self.drop2(x)
         x = self.full_conn2(x)
 
         return x
