@@ -22,7 +22,7 @@ model = cnn3d()
 
 # loss function and optimizer
 loss_fn = nn.MSELoss()  # mean square error
-optimizer = torch.optim.Adam(model.parameters(), lr=0.0001)
+optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
  
 n_epochs = 100   # number of epochs to run
  
