@@ -10,7 +10,7 @@ import copy
 
 dm = DataManager()
 
-X_train, X_test, y_train, y_test = train_test_split(dm.imgs, dm.pt_4000, test_size=0.33, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(dm.imgs, dm.pt_500, test_size=0.33, random_state=42)
 
 train_data = [(X_train[i], y_train[i]) for i in range(0, len(X_train))]
 test_data = [(X_test[i], y_test[i]) for i in range(0, len(X_test))]
@@ -20,8 +20,7 @@ validation_loader = torch.utils.data.DataLoader(test_data, batch_size=4, shuffle
  
 model = cnn3d()
 
-# loss function and optimizer
-loss_fn = nn.MSELoss()  # mean square error
+loss_fn = nn.MSELoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
  
 n_epochs = 100   # number of epochs to run

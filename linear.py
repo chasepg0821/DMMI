@@ -23,7 +23,7 @@ plt.plot(x,y,'.',markersize=10, label='data')
 plt.plot(x,y_lr, '-', label='linear regression') 
 
 plt.legend()
-plt.title(f"Linear Regression PT500 (MSE: {mean_squared_error(x, y_lr)})")
+plt.title(f"Linear Regression PT500 (MSE: {mean_squared_error(y, y_lr)})")
 
 y2 = dm.pt_4000_a
 
@@ -37,7 +37,7 @@ plt.plot(x,y2,'.',markersize=10, label='data')
 plt.plot(x,y2_lr, '-', label='linear regression') 
 
 plt.legend()
-plt.title(f"Linear Regression PT4000 (MSE: {mean_squared_error(x, y2_lr)})") 
+plt.title(f"Linear Regression PT4000 (MSE: {mean_squared_error(y2, y2_lr)})") 
 plt.show()
 
 
