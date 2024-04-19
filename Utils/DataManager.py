@@ -20,8 +20,10 @@ class DataManager:
             plt.show()
             imgs.append(img)
         imgArray = np.array([np.array([img],dtype=np.float32) for img in imgs])
+
+        normalizedImgs = (imgArray-np.min(imgArray))/(np.max(imgArray)-np.min(imgArray))
         
-        return imgArray
+        return normalizedImgs
 
     def _populate_PTS(self):
         df = pd.read_excel('./dataset/PTs_500_4k_blinded.xlsx')

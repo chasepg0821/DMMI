@@ -15,8 +15,6 @@ class cnn3d(nn.Module):
         self.fc1_norm = nn.BatchNorm1d(256)
         self.full_conn2 = nn.Linear(256, 1)
         self.relu = nn.ReLU()
-        # self.drop1 = nn.Dropout3d(0.25)
-        # self.drop2 = nn.Dropout(0.5)
 
     def _def_cnv_layer(self, i_c, o_c):
         cnv_layer = nn.Sequential(

@@ -6,12 +6,11 @@ from sklearn.metrics import mean_squared_error
 
 dm = DataManager()
 
-print(dm.imgs.shape)
 array = []
 for img in dm.imgs:
     array.append(np.sum(img.flatten()))
 x = np.array(array)
-y = dm.pt_500_a
+y = dm.pt_500_a # array, not tensor
 
 lr = LinearRegression()
 lr.fit(x.reshape(-1,1),y.reshape(-1,1))
